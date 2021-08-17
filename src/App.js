@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react';
-// import * as BooksAPI from './BooksAPI'
+import React from 'react';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,9 +22,14 @@ class BooksApp extends React.Component {
   };
 
   async componentDidMount(){
-    const books = await getAll();
-    this.setState({books});
-    console.log(this.state);
+    try{
+      const books = await getAll();
+      this.setState({books});
+      this.setState({loading: false})
+    } catch( err ){
+      window.alert("Something wrong happend please try to refresh the page.");
+      console.log(err);
+    }
   }
 
   render(){
@@ -43,8 +47,8 @@ class BooksApp extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
-                  <CurrentlyReading />
-                  <WantToRead />
+                  <CurrentlyReading currentlyReadingBooks={this.state.currentlyReadingBooks} loading={this.state.loading}/>
+                  <WantToRead WantToReadBooks={this.state.WantToReadBooks} loading={this.state.loading}/>
                   <Read books={this.state.books} loading={this.state.loading}/>
                 </div>
               </div>
