@@ -2,8 +2,7 @@ import React from 'react';
 import Book from './BookComponent';
 import Loading from './LoadingComponent';
 function Read(props){
-  let { loading } = props;
-  let {books} = props;
+  let { state: { loading, read }, setState, shelf } = props;
 
   let dataTodisplay; 
 
@@ -11,13 +10,14 @@ function Read(props){
     dataTodisplay = <Loading />
   } 
 
-  if( books.length > 0){
-    dataTodisplay = books.map( (book, index) => {
-      return <Book book={book} key={index}/>
+  if( read.length > 0){
+    dataTodisplay = read.map( (book, index) => {
+      return <Book shelf={shelf} book={book} setState={setState} key={book.id}/>
     })
   } 
-  if(!loading && books.length == 0){ 
+  if(!loading && read.length === 0){ 
     dataTodisplay = <h2>No books to show.</h2>
+    console.log(read);
   }
   
   return (

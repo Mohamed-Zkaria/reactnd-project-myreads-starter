@@ -4,8 +4,7 @@ import Loading from './LoadingComponent';
 
 function WantToRead(props){
 
-  let { loading } = props;
-  let {WantToReadBooks} = props;
+  let { state: { loading, wantToRead }, setState, shelf } = props;
 
   let dataTodisplay; 
 
@@ -13,12 +12,12 @@ function WantToRead(props){
       dataTodisplay = <Loading />
     } 
 
-    if( WantToReadBooks.length > 0){
-      dataTodisplay = WantToReadBooks.map( (book, index) => {
-        return <Book book={book} key={index}/>
+    if( wantToRead.length > 0){
+      dataTodisplay = wantToRead.map( (book, index) => {
+        return <Book shelf={shelf} book={book} setState={setState} key={book.id}/>
       })
     } 
-    if(!loading && WantToReadBooks.length == 0){ 
+    if(!loading && wantToRead.length === 0){ 
       dataTodisplay = <h2>No books to show.</h2>
     }
     return (
