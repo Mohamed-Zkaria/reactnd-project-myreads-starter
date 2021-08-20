@@ -21,6 +21,7 @@ class BooksApp extends React.Component {
       read: [],
       currentlyReading: [],
       wantToRead: [],
+      none: []
     };
 
     this.updateBook = this.updateBook.bind(this);
@@ -35,8 +36,11 @@ class BooksApp extends React.Component {
   async componentDidMount(){
     try{
       const books = await getAll();
-      this.setState({read: books});
-      this.setState({loading: false})
+      let currentlyReading = books.filter( book=> book.shelf === 'currentlyReading')
+      let wantToRead = books.filter(book=> book.shelf === 'wantToRead');
+      let read = books.filter(book=> book.shelf === 'read');
+      this.setState({loading: false});
+      this.setState({read, wantToRead, currentlyReading});
     } catch( err ){
       window.alert("Something wrong happend please try to refresh the page.");
       console.log(err);
@@ -49,7 +53,7 @@ class BooksApp extends React.Component {
         <Router>
           <Switch>
             <Route exact path="/search">
-              <Search/>
+              <Search shelf={"none"} state={this.state} setState={this.updateBook} loading={this.state.loading}/>
             </Route>
             <Route exact path="/">
               <div className="list-books">

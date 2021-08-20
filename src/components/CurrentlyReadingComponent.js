@@ -10,7 +10,7 @@ function CurrentlyReading(props){
   } 
   
   if( currentlyReading.length > 0){
-    dataTodisplay = currentlyReading.map( (book, index) => {
+    dataTodisplay = currentlyReading.map( (book) => {
       return <Book shelf={shelf} book={book} setState={setState} key={book.id}/>
     })
   } 

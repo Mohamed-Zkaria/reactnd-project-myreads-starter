@@ -13,7 +13,7 @@ function WantToRead(props){
     } 
 
     if( wantToRead.length > 0){
-      dataTodisplay = wantToRead.map( (book, index) => {
+      dataTodisplay = wantToRead.map( (book) => {
         return <Book shelf={shelf} book={book} setState={setState} key={book.id}/>
       })
     } 
@@ -22,13 +22,13 @@ function WantToRead(props){
     }
     return (
         <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {dataTodisplay}
-                    </ol>
-                  </div>
-                </div>
+          <h2 className="bookshelf-title">Want to Read</h2>
+          <div className="bookshelf-books">
+            <ol className="books-grid">
+              {dataTodisplay}
+            </ol>
+          </div>
+        </div>
     );
 }
 
