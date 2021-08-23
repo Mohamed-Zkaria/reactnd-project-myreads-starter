@@ -79,7 +79,7 @@ function Book(props){
         <li>
             <div className="book">
                 <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url('${book.imageLinks.thumbnail}')` }}></div>
+                <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url('${book.imageLinks && book.imageLinks.thumbnail}')` }}></div>
                 <div className="book-shelf-changer">
                     <select value={bookShelf} onChange={getTargetShelf}>
                     <option value="move" disabled>Move to...</option>
@@ -91,9 +91,7 @@ function Book(props){
                 </div>
                 </div>
                 <div className="book-title">{book.title}</div>
-                {/* {book.authors.map( author => {
-                    return <div className="book-authors" key={author}>{author}</div>
-                })} */}
+                {book.authors && <div className="book-authors">{book.authors.join(", ")}</div> }
             </div>
         </li>
     ) : null;

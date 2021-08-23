@@ -8,11 +8,9 @@ import {
 } from "react-router-dom";
 
 import './App.css'
-import CurrentlyReading from './components/CurrentlyReadingComponent';
-import Read from './components/ReadComponent';
 import Search from './components/SearchComponent';
-import WantToRead from './components/WanttoReadComponent';
 import {getAll} from './BooksAPI'
+import Shelf from './components/ShelfComponent';
 class BooksApp extends React.Component {
   constructor(props){
     super(props);
@@ -21,7 +19,13 @@ class BooksApp extends React.Component {
       read: [],
       currentlyReading: [],
       wantToRead: [],
-      none: []
+      none: [],
+      shelves : [
+        { title: 'Currently Reading', key: 'currentlyReading' },
+        { title: 'Want To Read', key: 'wantToRead' },
+        { title: 'Read', key: 'read' },
+     ],
+     bookShelfIds: {},
     };
 
     this.updateBook = this.updateBook.bind(this);
@@ -36,6 +40,12 @@ class BooksApp extends React.Component {
   async componentDidMount(){
     try{
       const books = await getAll();
+      books.map(book=>{
+        this.setState(prevState=>{
+          return prevState.bookShelfIds[book.id] = book.shelf;
+        })
+      })
+
       let currentlyReading = books.filter( book=> book.shelf === 'currentlyReading')
       let wantToRead = books.filter(book=> book.shelf === 'wantToRead');
       let read = books.filter(book=> book.shelf === 'read');
@@ -53,7 +63,11 @@ class BooksApp extends React.Component {
         <Router>
           <Switch>
             <Route exact path="/search">
-              <Search shelf={"none"} state={this.state} setState={this.updateBook} loading={this.state.loading}/>
+              <Search 
+              shelf={"none"} 
+              state={this.state} 
+              setState={this.updateBook} 
+              loading={this.state.loading}/>
             </Route>
             <Route exact path="/">
               <div className="list-books">
@@ -62,13 +76,23 @@ class BooksApp extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
-                  <CurrentlyReading shelf={"currentlyReading"} state={this.state} setState={this.updateBook} loading={this.state.loading}/>
-                  <WantToRead shelf={"wantToRead"} state={this.state} setState={this.updateBook} loading={this.state.loading}/>
-                  <Read shelf={"read"} state={this.state} setState={this.updateBook} loading={this.state.loading}/>
+
+                {
+                  this.state.shelves.map( shelf => {
+                    return <Shelf 
+                      title={shelf.title} 
+                      shelf={shelf.key} 
+                      state={this.state} 
+                      setState={this.updateBook} 
+                      loading={this.state.loading} 
+                      key={shelf.key}  
+                    />;
+                  })
+                }
                 </div>
               </div>
               <div className="open-search">
-                <Link to="/search"><button>Add a book</button></Link>
+                <Link to="/search" className="searchLink">Add a book</Link>
               </div>
             </div>
             </Route>
