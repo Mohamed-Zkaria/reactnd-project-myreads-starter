@@ -11,6 +11,7 @@ import './App.css'
 import Search from './components/SearchComponent';
 import {getAll} from './BooksAPI'
 import Shelf from './components/ShelfComponent';
+import PageNotFound from './components/PageNotFoundComponent';
 class BooksApp extends React.Component {
   constructor(props){
     super(props);
@@ -95,6 +96,9 @@ class BooksApp extends React.Component {
                 <Link to="/search" className="searchLink">Add a book</Link>
               </div>
             </div>
+            </Route>
+            <Route>
+              <PageNotFound />
             </Route>
           </Switch>
         </Router>

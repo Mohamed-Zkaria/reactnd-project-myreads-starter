@@ -45,6 +45,9 @@ function Book(props){
 
     const setBookShelf = async (targetShelf) => {
         if(targetShelf === 'none'){
+            setState(prevState=>{
+                return prevState.bookShelfIds[book.id] = targetShelf;
+              });
             try{
                 setState( (prevState) => {
                     setBookShelfstate(targetShelf);
@@ -68,6 +71,9 @@ function Book(props){
                     prevState[targetShelf].push(book);
                     return prevState;
                 });
+                setState(prevState=>{
+                    return prevState.bookShelfIds[book.id] = targetShelf;
+                  });
             } catch(err) {
                 window.alert("Something Happened!");
                 console.error(err);

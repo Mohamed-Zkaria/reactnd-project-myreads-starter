@@ -196,3 +196,19 @@ button:active {
   text-align: center;
   font-size: 0.8em;
 }
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: space-around;
+}
+
+.container h3{
+  display: block;
+}
+
+.container p {
+  display: block;
+}
